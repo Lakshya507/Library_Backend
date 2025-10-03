@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin Shelf Management</title>
+</head>
+<body>
+    <h1>📦 Admin Shelf Management</h1>
+
+    <h2>Pending Shelf Requests (Need Approval)</h2>
+    {% if pending %}
+        <ul>
+            {% for shelf in pending %}
+                <li>
+                    User: {{ shelf.user.username }} | Shelf: {{ shelf.shelf_number }} | Token: {{ shelf.token }}
+                    <a href="{% url 'approve_shelf' shelf.id %}">Approve</a>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No pending requests.</p>
+    {% endif %}
+
+    <hr>
+
+    <h2>Booked Shelves (Approved)</h2>
+    {% if booked %}
+        <ul>
+            {% for shelf in booked %}
+                <li>
+                    User: {{ shelf.user.username }} | Shelf: {{ shelf.shelf_number }} | Token: {{ shelf.token }}
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No booked shelves yet.</p>
+    {% endif %}
+
+    <hr>
+
+    <h2>Collect Bag (By Token)</h2>
+    <form method="POST" action="{% url 'verify_token' %}">
+        {% csrf_token %}
+        <label>Enter Token:</label>
+        <input type="text" name="token" required>
+        <button type="submit">Verify</button>
+    </form>
+
+    <hr>
+
+    <h2>To Collect (Returned Bags)</h2>
+    {% if to_collect %}
+        <ul>
+            {% for shelf in to_collect %}
+                <li>
+                    User: {{ shelf.user.username }} | Shelf: {{ shelf.shelf_number }} | Token: {{ shelf.token }}
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No pending collections.</p>
+    {% endif %}
+</body>
+</html>

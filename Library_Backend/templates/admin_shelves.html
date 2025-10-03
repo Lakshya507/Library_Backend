@@ -1,0 +1,57 @@
+<h1>Admin Shelf Management</h1>
+
+<h2>Pending Shelf Assignments</h2>
+<ul>
+  {% for req in pending_requests %}
+    <li>User: {{ req.user.username }} | Shelf: {{ req.shelf_number }}</li>
+  {% empty %}
+    <li>No pending assignments.</li>
+  {% endfor %}
+</ul>
+
+<form method="post" action="{% url 'approve_assignment' %}">
+  {% csrf_token %}
+  <label>Enter Shelf Number to Approve Assignment:</label>
+  <input name="shelf_number" type="number" required />
+  <button type="submit">Approve</button>
+</form>
+
+<hr>
+
+<h2>Pending Retrieval Requests</h2>
+<ul>
+  {% for req in retrieval_requests %}
+    <li>User: {{ req.user.username }} | Shelf: {{ req.shelf_number }}</li>
+  {% empty %}
+    <li>No pending retrievals.</li>
+  {% endfor %}
+</ul>
+
+<form method="post" action="{% url 'confirm_retrieval' %}">
+  {% csrf_token %}
+  <label>Shelf Number:</label>
+  <input name="shelf_number" type="number" required />
+  <label>Token:</label>
+  <input name="token" required />
+  <button type="submit">Confirm Retrieval</button>
+</form>
+
+<hr>
+
+<h2>Currently Assigned Shelves</h2>
+<ul>
+  {% for assigned in assigned %}
+    <li>User: {{ assigned.user.username }} | Shelf: {{ assigned.shelf_number }}</li>
+  {% empty %}
+    <li>No shelves assigned currently.</li>
+  {% endfor %}
+</ul>
+
+<h2>Collected Shelves (Now Free)</h2>
+<ul>
+  {% for ret in collected %}
+    <li>User: {{ ret.user.username }} | Shelf: {{ ret.shelf_number }}</li>
+  {% empty %}
+    <li>No shelves collected yet.</li>
+  {% endfor %}
+</ul>

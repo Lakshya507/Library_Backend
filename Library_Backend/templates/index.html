@@ -1,0 +1,33 @@
+<h1>Welcome, {{ request.user.username }}</h1>
+
+{% if messages %}
+<ul>
+  {% for message in messages %}
+    <li>{{ message }}</li>
+  {% endfor %}
+</ul>
+{% endif %}
+
+{% if not shelf_token or shelf_token.status == 'collected' %}
+  <form method="POST" action="">
+    {% csrf_token %}
+    <button type="submit">Assign Shelf</button>
+  </form>
+{% else %}
+  <p><strong>Your Assigned Shelf Number:</strong> {{ shelf_token.shelf_number }}</p>
+  <p><strong>Your Token:</strong> {{ shelf_token.token }}</p>
+  <p><strong>Status:</strong> {{ shelf_token.get_status_display }}</p>
+
+  {% if shelf_token.status == 'requested' %}
+    <p>Your shelf assignment request is pending admin approval.</p>
+
+  {% elif shelf_token.status == 'assigned' %}
+    <form method="post" action="{% url 'request_retrieval' %}">
+      {% csrf_token %}
+      <button type="submit">Request Retrieval</button>
+    </form>
+
+  {% elif shelf_token.status == 'retrieval_requested' %}
+    <p>Your retrieval request is pending admin confirmation.</p>
+  {% endif %}
+{% endif %}
