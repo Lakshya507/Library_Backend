@@ -1,88 +1,130 @@
-Library Shelf Token Management System
+# Library Shelf Token Management System
+
 A Django-based backend system for managing library shelf assignments and retrievals securely using token-based confirmations and dual user-admin approvals.
 
-Description
+---
+
+## Description
+
 This system helps streamline the manual process of bag management in libraries by assigning shelves to students with unique tokens and requiring admin approval for assignments and retrievals. The workflow guarantees secure shelf usage, prevents mix-ups, and provides a clear admin panel for approvals.
 
-Features
-Immediate shelf assignment request with unique shelf number and token shown to student.
+---
 
-Admin approval required to finalize shelf assignment.
+## Features
 
-Students can request retrieval; admin confirms using shelf number and token.
+- Immediate shelf assignment request with unique shelf number and token shown to student.
+- Admin approval required to finalize shelf assignment.
+- Students can request retrieval; admin confirms using shelf number and token.
+- Simple dashboards for users (students) and admins.
+- Status tracking with clear stages (requested, assigned, retrieval requested, collected).
+- Secure token-based verification for shelf ownership.
+- Admin messages for approvals and retrieval confirmations.
+- No timing/duration tracking (simplified for ease of use).
 
-Simple dashboards for users (students) and admins.
+---
 
-Status tracking with clear stages (requested, assigned, retrieval requested, collected).
+## Users Included (Pre-configured for quick testing)
 
-Secure token-based verification for shelf ownership.
+| Username | Password       | Role   |
+| -------- | -------------- | ------ |
+| lakshya  | mypassword123  | User   |
+| john     | john123        | User   |
+| admin    | admin          | Admin  |
 
-Admin messages for approvals and retrieval confirmations.
+(**Note:** Create these users manually via Django admin or using manage.py shell before testing.)
 
-No timing/duration tracking (simplified for ease of use).
+---
 
-Users Included (Pre-configured for quick testing)
-Username	Password	Role
-lakshya	mypassword123	User
-john	john123	User
-admin	admin	Admin
-(Please create these users manually via Django admin or create a script to initialize them.)
+## Installation & Setup
 
-Installation & Setup
-Clone the repository
+1. **Clone the repository**
 
-bash
-git clone <your-repo-url>
-cd your_repo_folder
-Create and activate a virtual environment
+<pre>git clone https://github.com/Lakshya507/Library_Backend.git
+cd Library_Backend</pre>
 
-bash
-python3 -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
-Install dependencies
+2. **Create and activate a virtual environment**
 
-bash
-pip install django
-Apply database migrations
+<pre>python3 -m venv venv
+source venv/bin/activate # On Windows: venv\Scripts\activate</pre>
 
-bash
-python manage.py makemigrations
-python manage.py migrate
-Create users (if not done)
+3. **Install dependencies**
+<pre>pip install django</pre>
 
-bash
-python manage.py createsuperuser
-# Create 'admin' user with password 'admin'
-# Create users 'lakshya' and 'john' with their passwords via admin panel or custom script
-Run the development server
 
-bash
-python manage.py runserver
-Access
+4. **Apply database migrations**
 
-User portal: /index/
+<pre>python manage.py makemigrations
+python manage.py migrate</pre>
 
-Admin portal: /admin_shelves/
 
-Usage
-Students can assign shelves and see tokens.
+5. **Create users (if not already created)**
 
-Admin sees requests, approves by shelf number, confirms retrieval with shelf and token.
+Use Django admin or shell commands to create:
+<pre>python manage.py createsuperuser # For admin user</pre>
 
-Students can only view their own shelf/token info and request statuses.
+Or create users manually in shell You Can make like this:
+<pre>python manage.py shell
 
-Admin messages shown only in admin dashboard.
+from django.contrib.auth.models import User
+User.objects.create_user('lakshya', password='mypassword123')
+User.objects.create_user('john', password='john123')
+User.objects.create_superuser('admin', password='admin')</pre>
 
-Project Structure Overview
-text
-your_app/
-├── models.py          # ShelfToken model without timing fields
-├── views.py           # User/admin views with status handling and messages separated correctly
-├── urls.py            # URL routes for user and admin endpoints
-├── templates/
-│   ├── index.html      # User dashboard template
-│   └── admin_shelves.html # Admin dashboard template with approval forms and messages
-├── templatetags/
-│   └── __init__.py    # (empty, no custom filters anymore)
-License
-This project is developed by [Your Name] and is free to use under the MIT License.
+
+6. **Run the development server**
+<pre>python manage.py runserver</pre>
+
+
+7. **Access**
+
+- User dashboard: `http://localhost:8000/index/`
+- Admin dashboard: `http://localhost:8000/admin_shelves/`
+
+---
+
+## Usage
+
+- Students log in to assign shelves and see their unique shelf number and token.
+- Admins log in to approve shelf assignments and confirm retrievals.
+- The system ensures secure mutual confirmation for shelf use.
+- Users receive only their own notification messages; assignment messages appear on the admin side.
+
+---
+
+## Project Structure Overview
+<pre>
+Library_Backend/
+│
+├── home/
+│   ├── migrations/
+│   ├── __init__.py                 # empty file
+│   ├── admin.py                   # (default or your admin config)
+│   ├── apps.py                   # app configuration
+│   ├── models.py                 # ShelfToken model
+│   ├── views.py                  # User and admin views 
+│   ├── urls.py                   # URL routing for app
+│   ├── templates/
+│   │   ├── index.html            # User dashboard template
+│   │   └── admin_shelves.html   # Admin dashboard template
+│   └── templatetags/             # (Remove this directory completely, no custom filters)
+│
+├── Library_Backend/                 # Django project folder
+│   ├── __init__.py              # empty file
+│   ├── settings.py              # project settings
+│   ├── urls.py                  # project-level urls.py
+│   └── wsgi.py                  # project WSGI config
+│
+└── manage.py                    # Django management command entrypoints
+</pre>
+
+
+
+---
+
+## License
+
+Developed by Lakshyaraj Mandloi. Licensed under MIT License.
+
+---
+
+
