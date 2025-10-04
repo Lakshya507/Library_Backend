@@ -106,7 +106,7 @@ Library_Backend/
 │   ├── templates/
 │   │   ├── index.html            # User dashboard template
 │   │   └── admin_shelves.html   # Admin dashboard template
-│   └── templatetags/             # (Remove this directory completely, no custom filters)
+│   └── templatetags/             
 │
 ├── Library_Backend/                 # Django project folder
 │   ├── __init__.py              # empty file
